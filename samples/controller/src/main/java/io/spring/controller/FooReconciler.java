@@ -40,6 +40,7 @@ public class FooReconciler implements Reconciler {
 
     @Override
     public Result reconcile(Request request) {
+        log.info("received request: {}", request.getName());
         var namespace = request.getNamespace();
         var name  = request.getName();
         var lister = new Lister<>(informer.getIndexer(), namespace);
@@ -121,11 +122,11 @@ public class FooReconciler implements Reconciler {
         return deploymentList.getItems().stream().anyMatch(item -> item.getMetadata().getName().equals(deployment.getMetadata().getName()));
     }
 
-    static class ResourceAccessHints implements RuntimeHintsRegistrar {
-
-        @Override
-        public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
-            hints.resources().registerPattern("deployment-template.yaml");
-        }
-    }
+//    static class ResourceAccessHints implements RuntimeHintsRegistrar {
+//
+//        @Override
+//        public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
+//            hints.resources().registerPattern("deployment-template.yaml");
+//        }
+//    }
 }

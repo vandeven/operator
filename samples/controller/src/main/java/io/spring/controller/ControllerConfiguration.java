@@ -5,6 +5,8 @@ import io.kubernetes.client.extended.controller.builder.ControllerBuilder;
 import io.kubernetes.client.extended.controller.reconciler.Reconciler;
 import io.kubernetes.client.informer.SharedIndexInformer;
 import io.kubernetes.client.informer.SharedInformerFactory;
+import io.kubernetes.client.util.ClientBuilder;
+import io.kubernetes.client.util.KubeConfig;
 import io.spring.controller.models.V1Foo;
 import io.spring.controller.models.V1FooList;
 import io.kubernetes.client.util.generic.GenericKubernetesApi;
@@ -22,7 +24,7 @@ import io.kubernetes.client.openapi.models.*;
 import org.springframework.context.annotation.ImportRuntimeHints;
 import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 
-@RegisterReflectionForBinding({ V1Foo.class, V1FooList.class })
+//@RegisterReflectionForBinding({ V1Foo.class, V1FooList.class })
 @Configuration
 public class ControllerConfiguration {
 
@@ -48,7 +50,7 @@ public class ControllerConfiguration {
     }
 
 
-    @ImportRuntimeHints(FooReconciler.ResourceAccessHints.class)
+//    @ImportRuntimeHints(FooReconciler.ResourceAccessHints.class)
     @Bean
     Reconciler reconciler(SharedIndexInformer<V1Foo> parentInformer,
                           CoreV1Api coreV1Api,

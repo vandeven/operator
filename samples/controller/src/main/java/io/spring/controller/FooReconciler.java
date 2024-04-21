@@ -3,25 +3,28 @@ package io.spring.controller;
 import io.kubernetes.client.extended.controller.reconciler.Reconciler;
 import io.kubernetes.client.extended.controller.reconciler.Request;
 import io.kubernetes.client.extended.controller.reconciler.Result;
+import io.kubernetes.client.informer.SharedIndexInformer;
+import io.kubernetes.client.informer.cache.Lister;
+import io.kubernetes.client.openapi.ApiException;
+import io.kubernetes.client.openapi.apis.AppsV1Api;
+import io.kubernetes.client.openapi.apis.CoreV1Api;
+import io.kubernetes.client.openapi.models.V1ConfigMap;
+import io.kubernetes.client.openapi.models.V1ConfigMapBuilder;
+import io.kubernetes.client.openapi.models.V1Deployment;
+import io.kubernetes.client.openapi.models.V1OwnerReference;
+import io.kubernetes.client.openapi.models.V1OwnerReferenceBuilder;
+import io.kubernetes.client.util.Yaml;
+import io.spring.controller.models.V1Foo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.kubernetes.client.informer.cache.Lister;
-import io.kubernetes.client.informer.SharedIndexInformer;
-import io.spring.controller.models.V1Foo;
-import io.kubernetes.client.openapi.models.*;
-import java.util.Map;
-import java.util.Collections;
-import io.kubernetes.client.openapi.ApiException;
-import io.kubernetes.client.openapi.apis.CoreV1Api;
-import java.time.Duration;
-import io.kubernetes.client.openapi.apis.AppsV1Api;
-import io.kubernetes.client.util.Yaml;
 import org.springframework.core.io.ClassPathResource;
-import java.io.IOException;
 import org.springframework.util.FileCopyUtils;
+
+import java.io.IOException;
 import java.io.InputStreamReader;
-import org.springframework.aot.hint.RuntimeHints;
-import org.springframework.aot.hint.RuntimeHintsRegistrar;
+import java.time.Duration;
+import java.util.Collections;
+import java.util.Map;
 
 public class FooReconciler implements Reconciler {
 
@@ -121,12 +124,4 @@ public class FooReconciler implements Reconciler {
         var deploymentList = appsV1Api.listNamespacedDeployment(deployment.getMetadata().getNamespace(), null, null, null, null, null, null, null, null, null, null, null);
         return deploymentList.getItems().stream().anyMatch(item -> item.getMetadata().getName().equals(deployment.getMetadata().getName()));
     }
-
-//    static class ResourceAccessHints implements RuntimeHintsRegistrar {
-//
-//        @Override
-//        public void registerHints(RuntimeHints hints, ClassLoader classLoader) {
-//            hints.resources().registerPattern("deployment-template.yaml");
-//        }
-//    }
 }

@@ -5,26 +5,19 @@ import io.kubernetes.client.extended.controller.builder.ControllerBuilder;
 import io.kubernetes.client.extended.controller.reconciler.Reconciler;
 import io.kubernetes.client.informer.SharedIndexInformer;
 import io.kubernetes.client.informer.SharedInformerFactory;
-import io.kubernetes.client.util.ClientBuilder;
-import io.kubernetes.client.util.KubeConfig;
-import io.spring.controller.models.V1Foo;
-import io.spring.controller.models.V1FooList;
-import io.kubernetes.client.util.generic.GenericKubernetesApi;
 import io.kubernetes.client.openapi.ApiClient;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.boot.CommandLineRunner;
-import java.util.concurrent.Executors;
 import io.kubernetes.client.openapi.apis.AppsV1Api;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
+import io.kubernetes.client.util.generic.GenericKubernetesApi;
+import io.spring.controller.models.V1Foo;
+import io.spring.controller.models.V1FooList;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.time.Duration;
+import java.util.concurrent.Executors;
 
-import io.kubernetes.client.openapi.models.*;
-import org.springframework.context.annotation.ImportRuntimeHints;
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
-
-//@RegisterReflectionForBinding({ V1Foo.class, V1FooList.class })
 @Configuration
 public class ControllerConfiguration {
 

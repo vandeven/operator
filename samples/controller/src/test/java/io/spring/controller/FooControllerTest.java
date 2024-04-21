@@ -41,14 +41,19 @@ public class FooControllerTest {
 	@Container
 	static K3sContainer k3sContainer = new K3sContainer(DockerImageName.parse("rancher/k3s:v1.24.12-k3s1"));
 
+	/**
+	 * This gets loaded after testcontainer startup and before application startup
+	 * This is used to create a custom ApiClient bean with configuration from the test container.
+	 * It also creates the CRD so the application doesn't throw an immediate error
+	 */
 	static class TestcontainersInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
 		@Override
 		public void initialize(ConfigurableApplicationContext ctx) {
 			try {
 				ApiClient client = createClient();
-				createCRD(client);
 				ctx.getBeanFactory().registerSingleton("defaultApiClient", client);
+				createCRD(client);
 			} catch (IOException | ApiException e) {
 				throw new RuntimeException(e);
 			}

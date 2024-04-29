@@ -52,6 +52,8 @@ public class FooControllerTest {
 		public void initialize(ConfigurableApplicationContext ctx) {
 			try {
 				ApiClient client = createClient();
+				// The kubernetes client creates a bean of type ApiClient if no other bean of that type is available
+				// We create one here using configuration from the testcontainer
 				ctx.getBeanFactory().registerSingleton("defaultApiClient", client);
 				createCRD(client);
 			} catch (IOException | ApiException e) {

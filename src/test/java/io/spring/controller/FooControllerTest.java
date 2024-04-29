@@ -55,6 +55,8 @@ public class FooControllerTest {
 				// The kubernetes client creates a bean of type ApiClient if no other bean of that type is available
 				// We create one here using configuration from the testcontainer
 				ctx.getBeanFactory().registerSingleton("defaultApiClient", client);
+
+				// Create a custom resource definition here so the application won't throw an error on start
 				createCRD(client);
 			} catch (IOException | ApiException e) {
 				throw new RuntimeException(e);
@@ -63,8 +65,7 @@ public class FooControllerTest {
 
 		private static ApiClient createClient() throws IOException {
 			KubeConfig config = KubeConfig.loadKubeConfig(new StringReader(k3sContainer.getKubeConfigYaml()));
-			ApiClient client = ClientBuilder.kubeconfig(config).build();
-			return client;
+			return ClientBuilder.kubeconfig(config).build();
 		}
 
 		private static void createCRD(ApiClient client) throws IOException, ApiException {
